@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-
-  const components = [
+  const [components, setComponents] = useState([
     {
       id: 1,
       artTitle: "5 Consigli per una vita più produttiva",
@@ -19,49 +18,61 @@ function App() {
       artTitle: "La storia di un imprenditore che ha cambiato la sua vita",
       artText: "Lorem ipsum, siat amet consectetur adipisicing elit. Omnis quisquam ut aperiam hic atque at ab rem corporis veniam repudiandae nihil, dolores ipsa laboriosam, recusandae soluta quo impedit. Unde, tempora.",
     }
-  ];
+  ]);
 
-  console.log(components);
+  const [title, setTitle] = useState('');
+  const [article, setArticle] = useState('');
 
-  const [title, setTitle] = useState('Title')
-  const [article, setArticle] = useState('lorem ipsum asfda dagsg eagadzgaz.')
-
-
-  function handleTitleChange(e) {
-    console.log(e);
-    setTitle(e.target.value)
-  }
-
-  function handleArticleChange(e) {
-    console.log(e);
-    setArticle(e.target.value)
+  // Funzione per aggiungere un nuovo articolo
+  function addArticle() {
+    if (title.trim() && article.trim()) {
+      const newArticle = {
+        id: components.length + 1, // Genera un nuovo ID unico
+        artTitle: title,
+        artText: article,
+      };
+      setComponents([...components, newArticle]); // Aggiorna lo stato
+      setTitle(''); // Resetta l'input del titolo
+      setArticle(''); // Resetta l'input dell'articolo
+    } else {
+      alert("Inserisci un titolo e un articolo validi!");
+    }
   }
 
   return (
     <>
-
       <h1>Inserisci il titolo</h1>
-      <input type="text" name='title' id='title' value={title} onChange={e => setTitle(e.target.value)} />
+      <input
+        type="text"
+        name="title"
+        id="title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
 
       <h1>Inserisci l'articolo</h1>
-      <input type='text' name='article' id='article' value={article} onChange={e => setArticle(e.target.value)} />
+      <input
+        type="text"
+        name="article"
+        id="article"
+        value={article}
+        onChange={(e) => setArticle(e.target.value)}
+      />
+
       <div>
-        <input type="submit" />
+        <button type="button" id="btn" onClick={addArticle}>Invia</button>
       </div>
 
       <div className="components">
-        {components.map(component =>
+        {components.map((component) => (
           <div key={component.id}>
-            <div>
-              <h2>{component.artTitle}</h2>
-              <div>{component.artText}</div>
-            </div>
-          </div>)
-        }
+            <h2>{component.artTitle}</h2>
+            <div>{component.artText}</div>
+          </div>
+        ))}
       </div>
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;
